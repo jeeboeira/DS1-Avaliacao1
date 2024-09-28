@@ -21,7 +21,23 @@ public class Jogador implements InterfaceJogador{
 
     @Override
     public boolean joga(Jogo game) {
-        return false;
+        System.out.printf("%s, escolha uma posição (0-8): ", nome);
+        int posicao = scan.nextInt();
+        if (game.fazerJogada(posicao, time)) {
+            if (game.ehFimDoJogo()) {
+                if (game.temVencedor(null, null) != null) {
+                    System.out.println(nome + " venceu!");
+                    return true;
+                } else {
+                    System.out.println("Empate!");
+                    return true;
+                }
+            }
+            return false;
+        } else {
+            System.out.println("Posição inválida. Tente novamente.");
+            return joga(game);
+        }
     }
 
     @Override

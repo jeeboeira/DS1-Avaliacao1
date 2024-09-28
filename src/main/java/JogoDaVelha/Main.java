@@ -1,7 +1,5 @@
 package JogoDaVelha;
-
-
-import Teste.Jogo;
+ext
 
 import java.util.Scanner;
 
@@ -16,5 +14,15 @@ public class Main {
         // Inicia um jogo
         Jogo jogo = new Jogo();
 
+        boolean continuar = true;
+        while (continuar) {
+            jogo.novoJogo();
+            boolean fimDoJogo = false;
+            while (!fimDoJogo) {
+                fimDoJogo = j1.joga(jogo) || j2.joga(jogo);
+                jogo.atualizaTela();
+            }
+            continuar = Ferramentas.desejaContinuar();
+        }
     }
 }

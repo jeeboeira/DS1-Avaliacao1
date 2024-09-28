@@ -1,8 +1,5 @@
 package JogoDaVelha;
 
-import Teste.Jogador;
-import Teste.Jogo;
-
 import java.util.Scanner;
 
 public class Ferramentas {
