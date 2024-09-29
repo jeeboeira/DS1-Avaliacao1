@@ -26,6 +26,7 @@ public class Main {
         Jogador j2 = new Jogador(nome2, time2);
         Jogo jogo = new Jogo();
 
+        //Rotina padrão do jogo
         boolean continuar = true;
         while (continuar) {
             jogo.novoJogo();
@@ -34,7 +35,7 @@ public class Main {
                 //Aqui coloco if j1,j2 em relação aos jogos jogados
                 //Terminar um jogo pra ver se tenho contador
                 //Esse fim do jogo vai retornar true para fazer a condição desse while
-                fimDoJogo = j1.joga(jogo) || j2.joga(jogo);
+                fimDoJogo = j1.joga(jogo, j1, j2) || j2.joga(jogo, j1, j2);
                 jogo.atualizaTela();
             }
             continuar = Ferramentas.desejaContinuar();

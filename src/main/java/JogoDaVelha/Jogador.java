@@ -8,7 +8,7 @@ public class Jogador implements InterfaceJogador{
     private String nome;
     private char time;
 
-    //construtor
+    //construtor do jogador
     public Jogador(String nome, char time) {
         this.nome = nome;
         this.time = time;
@@ -19,13 +19,14 @@ public class Jogador implements InterfaceJogador{
     public char getTime() {return time;}
 
 
+    //Função core que trata as jogadas
     @Override
-    public boolean joga(Jogo game) {
+    public boolean joga(Jogo game, Jogador j1, Jogador j2) {
         System.out.printf("%s, escolha uma posição (0-8): ", nome);
         int posicao = scan.nextInt();
-        if (game.fazerJogada(posicao, time)) {
-            if (game.ehFimDoJogo()) {
-                if (game.temVencedor(null, null) != null) {
+        if (game.fazerJogada(posicao, time)) {  //Chama fazerJogada para validar a posição da jogada no array
+            if (game.ehFimDoJogo()) {           //Chama ehFimDoJogo para verificar se já tem um vencedor ou empate
+                if (game.temVencedor(j1, j2) != null) {
                     System.out.println(nome + " venceu!");
                     return true;
                 } else {
@@ -36,12 +37,18 @@ public class Jogador implements InterfaceJogador{
             return false;
         } else {
             System.out.println("Posição inválida. Tente novamente.");
-            return joga(game);
+            return joga(game, j1, j2);
         }
     }
 
     @Override
-    public void comemora() {
+    public void comemora() {System.out.println("Parabéns " + nome + "! Você ganhou.");}
 
+    @Override
+    public String toString() {
+        return "Jogador{" +
+                "nome='" + nome + '\'' +
+                ", time=" + time +
+                '}';
     }
 }
