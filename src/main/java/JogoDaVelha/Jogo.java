@@ -3,13 +3,28 @@ package JogoDaVelha;
 public class Jogo implements InterfaceJogo{
     private char[] tabuleiro;
     private int    jogadas;
+    // Adicione os jogadores como atributos da classe
+    private Jogador j1;
+    private Jogador j2;
 
     //Construtor do jogo
-    public Jogo() {
+    public Jogo(Jogador jogador1, Jogador jogador2) {
         this.tabuleiro = new char[9];
+        this.j1 = jogador1;
+        this.j2 = jogador2;
         novoJogo();
     }
 
+
+    // Getter para j1
+    public Jogador getJ1() {
+        return j1;
+    }
+
+    // Getter para j2
+    public Jogador getJ2() {
+        return j2;
+    }
     //Limpa o tabuleiro
     @Override
     public void novoJogo() {
@@ -47,11 +62,11 @@ public class Jogo implements InterfaceJogo{
     }
 
     @Override
-    public boolean ehEmpate() {return jogadas == 9 && temVencedor(null, null) == null;}
+    public boolean ehEmpate() {return jogadas == 9 && temVencedor(this.j1, this.j2) == null;}
 
     //verifica que tem um vencedor ou é empate para encerrar o jogo
     @Override
-    public boolean ehFimDoJogo() {return temVencedor(null, null) != null || ehEmpate();}
+    public boolean ehFimDoJogo() {return temVencedor(this.j1, this.j2) != null || ehEmpate();}
 
     //Valida a posição da jogada no array
     public boolean fazerJogada(int posicao, char time) {
