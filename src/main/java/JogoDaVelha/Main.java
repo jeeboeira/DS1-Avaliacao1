@@ -31,6 +31,9 @@ public class Main {
             jogo.novoJogo();
             boolean fimDoJogo = false;
             while (!fimDoJogo) {
+                //Aqui coloco if j1,j2 em relação aos jogos jogados
+                //Terminar um jogo pra ver se tenho contador
+                //Esse fim do jogo vai retornar true para fazer a condição desse while
                 fimDoJogo = j1.joga(jogo) || j2.joga(jogo);
                 jogo.atualizaTela();
             }

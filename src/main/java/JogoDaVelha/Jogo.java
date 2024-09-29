@@ -38,6 +38,14 @@ public class Jogo implements InterfaceJogo{
     public boolean ehFimDoJogo() {
         return false;
     }
-    public boolean fazerJogada(int posicao,char time){return false;}
+
+    public boolean fazerJogada(int posicao, char time) {
+        if (tabuleiro[posicao] == ' ') {
+            tabuleiro[posicao] = time;
+            jogadas++;
+            return true;
+        }
+        return false;
+    }
 }
 
