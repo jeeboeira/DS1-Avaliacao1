@@ -94,7 +94,7 @@ public class Jogo implements InterfaceJogo{
         Jogador vencedor = temVencedor(j1, j2);
         if (vencedor != null) {
             vencedor.incrementaVitorias();
-            System.out.println(vencedor.getNome() + " venceu!");
+            vencedor.comemora();
         } else if (ehEmpate()) {
             System.out.println("O jogo terminou em empate!");
         }
