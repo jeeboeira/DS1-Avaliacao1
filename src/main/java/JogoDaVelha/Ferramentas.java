@@ -43,8 +43,11 @@ public class Ferramentas {
     public static boolean desejaContinuar() {
         System.out.println("Deseja jogar novamente? (s/n)");
         String resposta = scan.next();
-        return resposta.equalsIgnoreCase("s");
+        if (resposta.equalsIgnoreCase("s")) {
+            return true;
+        } else {
+            System.out.println("Fim de jogo!");
+            return false; // O jogo encerra
+        }
     }
-
-
 }

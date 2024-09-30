@@ -1,5 +1,6 @@
 package JogoDaVelha;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Jogador implements InterfaceJogador{
@@ -23,33 +24,41 @@ public class Jogador implements InterfaceJogador{
         return vitorias;
     }
 
-    // Método para incrementar as vitórias
+    // Metodo para incrementar as vitórias
     public void incrementaVitorias() {
         vitorias++;
     }
 
-    //Função core que trata as jogadas
+    // Função core que trata as jogadas
     @Override
     public boolean joga(Jogo game) {
-        System.out.printf("%s, escolha uma posição (0-8): ", nome);
-        int posicao = scan.nextInt();
-        if (game.fazerJogada(posicao, time)) {  //Chama fazerJogada para validar a posição da jogada no array
-            if (game.ehFimDoJogo()) {           //Chama ehFimDoJogo para verificar se já tem um vencedor ou empate
-                Jogador vencedor = game.temVencedor(game.getJ1(), game.getJ2());
-                if (vencedor != null) {
-                    System.out.println(nome + " venceu!");
-                    return true;
+        boolean jogadaValida = false;
+
+        // Continua pedindo entrada até que o jogador faça uma jogada válida
+        while (!jogadaValida) {
+            try {
+                System.out.println(getNome() + ", escolha uma posição (0-8): ");
+                int posicao = scan.nextInt();  // Lê a posição
+
+                // Valida a jogada
+                if (posicao < 0 || posicao > 8) {
+                    System.out.println("Posição inválida! Escolha entre 0 e 8.");
+                } else if (!game.fazerJogada(posicao, getTime())) {
+                    System.out.println("Posição já ocupada! Escolha outra posição.");
                 } else {
-                    System.out.println("Empate!");
-                    return true;
+                    jogadaValida = true;  // Jogada válida, sai do loop
                 }
+            } catch (InputMismatchException e) {
+                // Captura erro se a entrada não for um número e limpa o scanner
+                System.out.println("Entrada inválida! Digite um número entre 0 e 8.");
+                scan.next();  // Limpa o buffer do scanner para evitar loop
             }
-            return false;
-        } else {
-            System.out.println("Posição inválida. Tente novamente.");
-            return joga(game);
         }
+
+        // Após fazer a jogada, verifica se o jogo terminou
+        return game.ehFimDoJogo();
     }
+
 
     @Override
     public void comemora() {System.out.println("Parabéns " + nome + "! Você ganhou.");}
