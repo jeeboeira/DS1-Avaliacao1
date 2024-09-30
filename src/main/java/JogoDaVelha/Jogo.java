@@ -25,6 +25,7 @@ public class Jogo implements InterfaceJogo{
     public Jogador getJ2() {
         return j2;
     }
+
     //Limpa o tabuleiro
     @Override
     public void novoJogo() {
@@ -32,6 +33,47 @@ public class Jogo implements InterfaceJogo{
             tabuleiro[i] = ' ';
         }
         jogadas = 0;
+    }
+
+    public void realizarPartida(Jogador j1, Jogador j2, boolean j1Comeca) {
+        boolean fimDoJogo = false;
+
+        //Realiza cada turno do jogo
+        while (!fimDoJogo) {
+            try {
+                if (j1Comeca) {
+                    fimDoJogo = j1.joga(this);    // Jogador 1 faz a jogada
+                    atualizaTela();                     // Atualiza a tela após a jogada do jogador 1
+                    if (!fimDoJogo) {                   // Verifica se o jogo ainda não terminou
+                        fimDoJogo = j2.joga(this);// Jogador 2 faz a jogada
+                        atualizaTela();                 // Atualiza a tela após a jogada do jogador 2
+                    }
+                } else {
+                    fimDoJogo = j2.joga(this);    // Jogador 2 faz a jogada
+                    atualizaTela();                     // Atualiza a tela após a jogada do jogador 2
+                    if (!fimDoJogo) {                   // Verifica se o jogo ainda não terminou
+                        fimDoJogo = j1.joga(this);// Jogador 1 faz a jogada
+                        atualizaTela();                 // Atualiza a tela após a jogada do jogador 1
+                    }
+                }
+            } catch (IllegalArgumentException e) {
+                // Captura exceções de jogadas inválidas e informa ao jogador
+                System.out.println("Jogada inválida: " + e.getMessage());
+            } catch (Exception e) {
+                // Captura qualquer outra exceção inesperada
+                System.out.println("Ocorreu um erro durante a jogada: " + e.getMessage());
+            }
+        }
+    }
+
+    //Valida a posição da jogada no array
+    public boolean fazerJogada(int posicao, char time) {
+        if (tabuleiro[posicao] == ' ') {
+            tabuleiro[posicao] = time;
+            jogadas++;
+            return true;
+        }
+        return false;
     }
 
     //Condições de vitória
@@ -52,6 +94,24 @@ public class Jogo implements InterfaceJogo{
         return null;
     }
 
+    //verifica que tem um vencedor ou é empate para encerrar o jogo
+    @Override
+    public boolean ehFimDoJogo() {return temVencedor(this.j1, this.j2) != null || ehEmpate();}
+
+    @Override
+    public boolean ehEmpate() {return jogadas == 9 && temVencedor(this.j1, this.j2) == null;}
+
+    // Após o jogo terminar, verifica quem ganhou e contabiliza as vitórias
+    public void exibirResultado(Jogador j1, Jogador j2) {
+        Jogador vencedor = temVencedor(j1, j2);
+        if (vencedor != null) {
+            vencedor.incrementaVitorias();
+            System.out.println(vencedor.getNome() + " venceu!");
+        } else if (ehEmpate()) {
+            System.out.println("O jogo terminou em empate!");
+        }
+    }
+
     @Override
     public void atualizaTela() {
         System.out.println(tabuleiro[0] + "|" + tabuleiro[1] + "|" + tabuleiro[2]);
@@ -61,21 +121,5 @@ public class Jogo implements InterfaceJogo{
         System.out.println(tabuleiro[6] + "|" + tabuleiro[7] + "|" + tabuleiro[8]);
     }
 
-    @Override
-    public boolean ehEmpate() {return jogadas == 9 && temVencedor(this.j1, this.j2) == null;}
-
-    //verifica que tem um vencedor ou é empate para encerrar o jogo
-    @Override
-    public boolean ehFimDoJogo() {return temVencedor(this.j1, this.j2) != null || ehEmpate();}
-
-    //Valida a posição da jogada no array
-    public boolean fazerJogada(int posicao, char time) {
-        if (tabuleiro[posicao] == ' ') {
-            tabuleiro[posicao] = time;
-            jogadas++;
-            return true;
-        }
-        return false;
-    }
 }
 
