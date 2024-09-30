@@ -6,23 +6,21 @@ import java.util.Scanner;
 public class Jogador implements InterfaceJogador{
     static Scanner scan = new Scanner(System.in);
 
-    private String nome;
-    private char time;
+    final String nome;
+    final char time;
     private int vitorias; // Contador de vitórias
 
     //construtor do jogador
     public Jogador(String nome, char time) {
         this.nome = nome;
         this.time = time;
-        this.vitorias = 0; // Inicializa com 0 vitórias
+        this.vitorias = 0;
     }
 
     //Get
-    public String getNome() {return nome;}
-    public char getTime() {return time;}
-    public int getVitorias() {
-        return vitorias;
-    }
+    public String getNome()     {return nome;}
+    public char   getTime()     {return time;}
+    public int    getVitorias() {return vitorias;}
 
     // Metodo para incrementar as vitórias
     public void incrementaVitorias() {
@@ -54,11 +52,9 @@ public class Jogador implements InterfaceJogador{
                 scan.next();  // Limpa o buffer do scanner para evitar loop
             }
         }
-
         // Após fazer a jogada, verifica se o jogo terminou
         return game.ehFimDoJogo();
     }
-
 
     @Override
     public void comemora() {System.out.println("Parabéns " + nome + "! Você ganhou.");}

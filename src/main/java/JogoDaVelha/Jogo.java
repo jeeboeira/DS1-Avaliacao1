@@ -1,11 +1,10 @@
 package JogoDaVelha;
 
 public class Jogo implements InterfaceJogo{
-    private char[] tabuleiro;
+    final char[] tabuleiro;
     private int    jogadas;
-    // Adicione os jogadores como atributos da classe
-    private Jogador j1;
-    private Jogador j2;
+    final Jogador j1;
+    final Jogador j2;
 
     //Construtor do jogo
     public Jogo(Jogador jogador1, Jogador jogador2) {
@@ -13,17 +12,6 @@ public class Jogo implements InterfaceJogo{
         this.j1 = jogador1;
         this.j2 = jogador2;
         novoJogo();
-    }
-
-
-    // Getter para j1
-    public Jogador getJ1() {
-        return j1;
-    }
-
-    // Getter para j2
-    public Jogador getJ2() {
-        return j2;
     }
 
     //Limpa o tabuleiro
@@ -35,13 +23,13 @@ public class Jogo implements InterfaceJogo{
         jogadas = 0;
     }
 
-    public void realizarPartida(Jogador j1, Jogador j2, boolean j1Comeca) {
+    public void realizarPartida(Jogador j1, Jogador j2, boolean j1Inicia) {
         boolean fimDoJogo = false;
 
         //Realiza cada turno do jogo
         while (!fimDoJogo) {
             try {
-                if (j1Comeca) {
+                if (j1Inicia) {
                     fimDoJogo = j1.joga(this);    // Jogador 1 faz a jogada
                     atualizaTela();                     // Atualiza a tela após a jogada do jogador 1
                     if (!fimDoJogo) {                   // Verifica se o jogo ainda não terminou
@@ -66,7 +54,7 @@ public class Jogo implements InterfaceJogo{
         }
     }
 
-    //Valida a posição da jogada no array
+    // Valida a posição da jogada no array
     public boolean fazerJogada(int posicao, char time) {
         if (tabuleiro[posicao] == ' ') {
             tabuleiro[posicao] = time;
@@ -94,7 +82,7 @@ public class Jogo implements InterfaceJogo{
         return null;
     }
 
-    //verifica que tem um vencedor ou é empate para encerrar o jogo
+    //verifica se tem um vencedor ou é empate para encerrar o jogo
     @Override
     public boolean ehFimDoJogo() {return temVencedor(this.j1, this.j2) != null || ehEmpate();}
 
