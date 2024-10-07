@@ -1,4 +1,4 @@
-package JogoDaVelha;
+package CoreJogoDaVelha;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;

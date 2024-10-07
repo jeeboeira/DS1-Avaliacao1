@@ -1,4 +1,4 @@
-package JogoDaVelha;
+package CoreJogoDaVelha;
 
 public class Jogo implements InterfaceJogo{
     final char[] tabuleiro;
