@@ -29,10 +29,8 @@ public class Ferramentas {
         switch (time){
             case 'X': case 'x':
                 return 'X';
-            //break;
             case 'O': case 'o':
                 return 'O';
-            //break;
             default:
                 System.out.println("Opção inválida, escolha X ou O");
                 escolheTime(scan.next().charAt(0));
