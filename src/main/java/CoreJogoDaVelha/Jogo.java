@@ -14,6 +14,10 @@ public class Jogo implements InterfaceJogo{
         novoJogo();
     }
 
+    public Jogador getJ1() {return j1;}
+
+    public Jogador getJ2() {return j2;}
+
     //Limpa o tabuleiro
     @Override
     public void novoJogo() {
@@ -98,6 +102,9 @@ public class Jogo implements InterfaceJogo{
         } else if (ehEmpate()) {
             System.out.println("O jogo terminou em empate!");
         }
+        System.out.println("Placar");
+        System.out.println(j1.nome +": "+ j1.getVitorias() +" | "+ j2.nome +": "+ j2.getVitorias());
+
     }
 
     @Override
