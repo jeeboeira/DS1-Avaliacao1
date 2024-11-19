@@ -1,4 +1,4 @@
-package JogoDaVelha;
+package CoreJogoDaVelha;
 
 public interface InterfaceJogo {
     Jogador temVencedor  (Jogador j1, Jogador j2);

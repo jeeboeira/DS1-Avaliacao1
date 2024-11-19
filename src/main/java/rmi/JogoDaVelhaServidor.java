@@ -1,20 +1,40 @@
 package rmi;
 
-import JogoDaVelha.Jogador;
-import JogoDaVelha.Jogo;
+import CoreJogoDaVelha.Jogador;
+import CoreJogoDaVelha.Jogo;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.time.LocalDateTime;
 
 public class JogoDaVelhaServidor extends UnicastRemoteObject implements JogoDaVelhaRMI {
-    private Jogo jogo; // O objeto do jogo que mantém o estado
+    private final Jogo jogo;
+    private boolean vezDoPlayer1 = true;
 
+    public JogoDaVelhaServidor (Jogador j1, Jogador j2) throws RemoteException {
+        this.jogo = new Jogo(j1, j2);
     public JogoDaVelhaServidor(Jogador j1, Jogador j2) throws RemoteException {
         jogo = new Jogo(j1, j2); //Inicializa o jogo com dois jogadores
     }
 
     @Override
+    public synchronized void fazerJogada(int posicao, String nomeJogador) throws RemoteException {
+        if (vezDoPlayer1 && nomeJogador.equals(jogo.getJ1().getNome())) {
+            // Player 1 faz a jogada
+            jogo.fazerJogada(posicao, jogo.getJ1().getTime());
+            vezDoPlayer1 = false;  // Passa a vez para o Player 2
+        } else if (!vezDoPlayer1 && nomeJogador.equals(jogo.getJ2().getNome())) {
+            // Player 2 faz a jogada
+            jogo.fazerJogada(posicao, jogo.getJ2().getTime());
+            vezDoPlayer1 = true;  // Passa a vez para o Player 1
+        } else {
+            System.out.println("Não é a sua vez!");
+        }
+
+        // Verificar se o jogo acabou após a jogada
+        if (ehFimdoJogo()) {
+            temVencedor();
+        }
     public boolean fazerJogada(int posicao, char time) throws RemoteException {
         return jogo.fazerJogada(posicao, time); // Metodo remoto para fazer uma jogada
     }
@@ -37,13 +57,10 @@ public class JogoDaVelhaServidor extends UnicastRemoteObject implements JogoDaVe
     }
 
     @Override
-    public Jogador temVencedor() throws RemoteException {
-        return jogo.temVencedor(jogo.j1, jogo.j2); // Retorna o vencedor, se houver
     }
 
     @Override
     public String obterInformacoesDoServidor() throws RemoteException {
-        // Metodo remoto que retorna informações do servidor
         return "Data e Hora: " + LocalDateTime.now() + "\nSistema Operacional: " + System.getProperty("os.name");
     }
 }

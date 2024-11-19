@@ -1,4 +1,4 @@
-package JogoDaVelha;
+package CoreJogoDaVelha;
 
 public interface InterfaceJogador {
     boolean joga     (Jogo game);
