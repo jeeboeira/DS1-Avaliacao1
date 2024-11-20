@@ -7,7 +7,7 @@ public class GameModeFactory {
             case 1:
                 return new OfflineMode();
             case 2:
-                return new OnlineLocalMode();
+                return new OnlineMode();
             case 3:
                 return new RemoteServerMode();
             default:

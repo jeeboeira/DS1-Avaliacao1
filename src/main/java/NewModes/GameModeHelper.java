@@ -2,12 +2,11 @@ package NewModes;
 
 import java.util.Scanner;
 
-public class Menu {
-    public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
-        boolean continuePlaying = true;
+public class GameModeHelper {
+    static Scanner scan = new Scanner(System.in);
 
-        // Main menu loop
+    public static void menuLoop(boolean continuePlaying) {
+        // Menu Principal
         while (continuePlaying) {
             System.out.println("Bem Vindos ao jogo da Velha!");
             System.out.println("Escolha um modo de Jogo:");
@@ -19,8 +18,8 @@ public class Menu {
             try {
                 int choice = scan.nextInt();
                 if (choice == 4) {
-                    continuePlaying = false;
                     System.out.println("Finalizando Aplicação...");
+                    continuePlaying = false;
                 } else {
                     GameMode mode = GameModeFactory.getGameMode(choice);
                     mode.start();
@@ -30,6 +29,17 @@ public class Menu {
                 scan.next();
             }
         }
-        scan.close();
+    }
+
+
+    public static boolean continuePlaying() {
+        System.out.println("Deseja jogar novamente? (s/n)");
+        String resposta = scan.next();
+        if (resposta.equalsIgnoreCase("s")) {
+            return true;
+        } else {
+            System.out.println("Fim de jogo!");
+            return false; // O jogo encerra
+        }
     }
 }
