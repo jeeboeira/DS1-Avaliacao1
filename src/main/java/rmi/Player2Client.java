@@ -1,6 +1,6 @@
 package rmi;
 
-import CoreJogoDaVelha.Ferramentas;
+import NewModes.GameModeHelper;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -33,7 +33,7 @@ public class Player2Client {
                     System.out.println(game.obterPlacar());
 
                     // Perguntar se o Player 2 deseja continuar
-                    continuePlaying = Ferramentas.desejaContinuar();
+                    continuePlaying = GameModeHelper.continuePlaying();
                     if (continuePlaying) {
                         game.iniciarNovoJogo();
                     }

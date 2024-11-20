@@ -1,5 +1,9 @@
 package CoreJogoDaVelha;
 
+import rmi.UDPComm;
+
+import java.util.Scanner;
+
 public class Jogo implements InterfaceJogo{
     final char[] tabuleiro;
     private int    jogadas;
@@ -116,5 +120,37 @@ public class Jogo implements InterfaceJogo{
         System.out.println(tabuleiro[6] + "|" + tabuleiro[7] + "|" + tabuleiro[8]);
     }
 
+    public static void startGame(Jogo jogo, UDPComm comm, boolean minhaVez) {
+        Scanner scanner = new Scanner(System.in);
+
+        while (!jogo.ehFimDoJogo()) {
+            if (minhaVez) {
+                jogo.atualizaTela();
+                System.out.print("Escolha uma posição (0-8): ");
+                int posicao = scanner.nextInt();
+
+                // Atualiza localmente e envia jogada
+                if (jogo.fazerJogada(posicao, jogo.getJ2().getTime())) {
+                    comm.sendMsg(String.valueOf(posicao));
+                    minhaVez = false;
+                } else {
+                    System.out.println("Posição inválida, tente novamente.");
+                }
+            } else {
+                System.out.println("Aguardando jogada do oponente...");
+                String msg = comm.receiveMsg();
+                int posicao = Integer.parseInt(msg);
+
+                // Atualiza tabuleiro com jogada recebida
+                jogo.fazerJogada(posicao, jogo.getJ1().getTime());
+                minhaVez = true;
+            }
+
+            if (jogo.temVencedor(jogo.getJ1(), jogo.getJ2()) != null || jogo.ehEmpate()) {
+                jogo.exibirResultado(jogo.getJ1(), jogo.getJ2());
+                break;
+            }
+        }
+    }
 }
 

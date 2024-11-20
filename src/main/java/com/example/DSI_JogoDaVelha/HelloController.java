@@ -1,4 +1,4 @@
-package com.example.ds1avaliacao1;
+package com.example.DSI_JogoDaVelha;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

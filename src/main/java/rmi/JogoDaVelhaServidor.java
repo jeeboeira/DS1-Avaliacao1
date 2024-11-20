@@ -13,8 +13,6 @@ public class JogoDaVelhaServidor extends UnicastRemoteObject implements JogoDaVe
 
     public JogoDaVelhaServidor (Jogador j1, Jogador j2) throws RemoteException {
         this.jogo = new Jogo(j1, j2);
-    public JogoDaVelhaServidor(Jogador j1, Jogador j2) throws RemoteException {
-        jogo = new Jogo(j1, j2); //Inicializa o jogo com dois jogadores
     }
 
     @Override
@@ -35,28 +33,33 @@ public class JogoDaVelhaServidor extends UnicastRemoteObject implements JogoDaVe
         if (ehFimdoJogo()) {
             temVencedor();
         }
-    public boolean fazerJogada(int posicao, char time) throws RemoteException {
-        return jogo.fazerJogada(posicao, time); // Metodo remoto para fazer uma jogada
-    }
-
-    @Override
-    public boolean ehFimDoJogo() throws RemoteException {
-        return jogo.ehFimDoJogo(); // Verifica se o jogo terminou
     }
 
     @Override
     public String obterTabuleiro() throws RemoteException {
-        // Retorna o tabuleiro do jogo em uma string formatada
-        StringBuilder tabuleiro = new StringBuilder();
-        for (int i = 0; i < 9; i++) {
-            tabuleiro.append(jogo.tabuleiro[i]);
-            if ((i +1) % 3 == 0) tabuleiro.append("\n");
-            else tabuleiro.append("|");
-        }
-        return tabuleiro.toString();
+        return "";
     }
 
     @Override
+    public boolean ehFimdoJogo() throws RemoteException {
+        return jogo.ehFimDoJogo();
+    }
+
+    @Override
+    public Jogador temVencedor() throws RemoteException {
+        return jogo.temVencedor(jogo.getJ1(), jogo.getJ2());
+    }
+
+    @Override
+    public void iniciarNovoJogo() throws RemoteException {
+        jogo.novoJogo();
+    }
+
+    @Override
+    public String obterPlacar() throws RemoteException {
+        return String.format("Vitórias: %s: %d, %s: %d",
+                jogo.getJ1().getNome(), jogo.getJ1().getVitorias(),
+                jogo.getJ2().getNome(), jogo.getJ2().getVitorias());
     }
 
     @Override
